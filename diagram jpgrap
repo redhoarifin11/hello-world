@@ -1,0 +1,24 @@
+<?php
+//include ("jpgraph/src/jpgraph.php");
+//include ("jpgraph/src/jpgraph_line.php");
+require_once ('jpgraph/src/jpgraph.php');
+require_once ('jpgraph/src/jpgraph_pie.php');
+require_once ('jpgraph/src/jpgraph_pie3d.php');
+$db = mysqli_connect("localhost", "root","","db_fpdf");
+$sql = mysqli_query($db,"SELECT * FROM data");
+while($row = mysqli_fetch_array($sql))
+{
+$data[] = $row[0];
+$leg[] = $row[1];
+}
+$graph = new PieGraph(1200,720,"auto");
+$graph->SetScale('textint');
+$graph->img->SetMargin(10,10,10,10);
+$graph->SetShadow();
+$graph->title->Set("Grafik Pie Chart 3 Dimensi");
+$bplot = new PiePlot3D($data);
+$bplot->SetCenter(0.45);
+$bplot->SetLegends($leg);
+$graph->Add($bplot);
+$graph->Stroke();
+?>
